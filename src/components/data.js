@@ -1,54 +1,53 @@
 const data = [
   {
-    text: "Aumentar texto",
+    text: "Texto más grande",
     img: "maximize",
-    id: "moreSizeAc",
+    id: "increaseText",
   },
   {
-    text: "Disminuir texto",
+    text: "Texto más pequeño",
     img: "minimize",
-    id: "lessSizeAc",
+    id: "decreaseText",
   },
   {
-    text: "Aumentar espaciado",
+    text: "Más espaciado en texto",
     img: "more_spacing",
-    id: "moreSpacingAc",
+    id: "increaseSpacing",
   },
   {
-    text: "Disminuir espaciado",
+    text: "Menos espaciado en texto",
     img: "less_spacing",
-    id: "lessSpacingAc",
+    id: "decreaseSpacing",
   },
   {
     text: "Escala de grises",
     img: "bar_gray",
-    id: "grayAc",
+    id: "grayScale",
   },
   {
     text: "Alto contraste",
     img: "contrast",
-    id: "contrastAc",
+    id: "highContrast",
   },
   {
-    text: "Fuente dislexicos",
+    text: "Fuente para disléxicos",
     img: "dyslexic",
-    id: "dyslexicAc",
+    id: "dyslexicFont",
   },
   {
-    text: "Aumentar cursor",
+    text: "Cursor más grande",
     img: "cursor",
-    id: "cursorAc",
+    id: "increaseCursor",
   },
-
   {
     text: "Resaltar enlaces",
     img: "link",
-    id: "linksAc",
+    id: "highlightLinks",
   },
   {
     text: "Restablecer",
     img: "restart",
-    id: "restartAc",
+    id: "reset",
   },
 ];
 

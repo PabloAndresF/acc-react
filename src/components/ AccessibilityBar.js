@@ -1,72 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import data from "./data";
 
 const AccessibilityBar = () => {
   const [spacing, setSpacing] = useState(1);
   const [fontSize, setFontSize] = useState(14);
-  const [isMenuActive, setIsMenuActive] = useState(false); // Estado para abrir/cerrar el menú
+  const [isMenuActive, setIsMenuActive] = useState(false);
   const [isHighContrast, setIsHighContrast] = useState(false);
   const [isGrayScale, setIsGrayScale] = useState(false);
   const [isDyslexicFont, setIsDyslexicFont] = useState(false);
   const [isBigCursor, setIsBigCursor] = useState(false);
   const [highlightLinks, setHighlightLinks] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuActive((prev) => !prev);
-    console.log("Menu active:", !isMenuActive); // Verificar si el menú se activa
-  };
+  // Efecto para actualizar clases en el body
+  useEffect(() => {
+    document.body.style.fontSize = `${fontSize}px`;
+    document.body.style.letterSpacing = `${spacing * 0.5}px`;
+
+    document.body.classList.toggle("high-contrast", isHighContrast);
+    document.body.classList.toggle("gray-scale", isGrayScale);
+    document.body.classList.toggle("font-dyslexic", isDyslexicFont);
+    document.body.classList.toggle("big-cursor", isBigCursor);
+    document.body.classList.toggle("highlight-links", highlightLinks);
+
+    // Limpiar estilos cuando el componente se desmonte
+    return () => {
+      document.body.style.fontSize = "";
+      document.body.style.letterSpacing = "";
+      document.body.classList.remove(
+        "high-contrast",
+        "gray-scale",
+        "font-dyslexic",
+        "big-cursor",
+        "highlight-links"
+      );
+    };
+  }, [
+    fontSize,
+    spacing,
+    isHighContrast,
+    isGrayScale,
+    isDyslexicFont,
+    isBigCursor,
+    highlightLinks,
+  ]);
+
+  // Resto de la lógica y el código del componente...
+  const toggleMenu = () => setIsMenuActive((prev) => !prev);
 
   const changeFontSize = (type) => {
-    setFontSize((prevSize) => {
-      const newSize =
-        type === "more"
-          ? prevSize + 1
-          : type === "less"
-          ? prevSize - 1
-          : prevSize;
-      console.log("Font size changed to:", newSize); // Verificar el cambio de tamaño
-      return newSize;
-    });
+    setFontSize((prevSize) =>
+      type === "more" ? prevSize + 1 : type === "less" ? prevSize - 1 : prevSize
+    );
   };
 
   const changeSpacing = (type) => {
-    setSpacing((prevSpacing) => {
-      const newSpacing =
-        type === "more"
-          ? prevSpacing + 1
-          : type === "less"
-          ? prevSpacing - 1
-          : prevSpacing;
-      console.log("Spacing changed to:", newSpacing); // Verificar el cambio de espaciado
-      return newSpacing;
-    });
+    setSpacing((prevSpacing) =>
+      type === "more"
+        ? prevSpacing + 1
+        : type === "less"
+        ? prevSpacing - 1
+        : prevSpacing
+    );
   };
 
   const resetAccessibilitySettings = () => {
-    setFontSize(14); // Restablecer tamaño de fuente
-    setSpacing(1); // Restablecer espaciado
-    setIsHighContrast(false); // Restablecer alto contraste
-    setIsGrayScale(false); // Restablecer escala de grises
-    setIsDyslexicFont(false); // Restablecer fuente disléxica
-    setIsBigCursor(false); // Restablecer cursor grande
-    setHighlightLinks(false); // Restablecer resaltado de enlaces
-    console.log("Accessibility settings reset"); // Verificar que se restablecieron los ajustes
+    setFontSize(14);
+    setSpacing(1);
+    setIsHighContrast(false);
+    setIsGrayScale(false);
+    setIsDyslexicFont(false);
+    setIsBigCursor(false);
+    setHighlightLinks(false);
   };
 
   return (
     <div
-      className={`accessibilityBar ${isHighContrast ? "high-contrast" : ""} ${
-        isGrayScale ? "gray-scale" : ""
-      } ${isDyslexicFont ? "font-dyslexic" : ""} ${
-        isBigCursor ? "big-cursor" : ""
+      className={`accessibilityBar ${
+        isMenuActive ? "accessibilityBar--active" : ""
       }`}
-      style={{ fontSize: `${fontSize}px`, letterSpacing: `${spacing * 0.5}px` }}
     >
-      <figure
-        className="accessibilityBar__figure"
-        tabIndex="0"
-        onClick={toggleMenu}
-      >
+      <figure className="accessibilityBar__figure" onClick={toggleMenu}>
         <img
           src="/Assets/images/logo.svg"
           alt="logo"
@@ -75,7 +88,7 @@ const AccessibilityBar = () => {
         />
       </figure>
       {isMenuActive && (
-        <div className="accessibilityBar__content" tabIndex="0">
+        <div className="accessibilityBar__content">
           <h3 className="accessibilityBar__title">Accesibilidad</h3>
           <div className="accessibilityBar__options">
             {data.map((item) => (
@@ -84,34 +97,34 @@ const AccessibilityBar = () => {
                 className="accessibilityBar__option"
                 onClick={() => {
                   switch (item.id) {
-                    case "moreSizeAc":
+                    case "increaseText": // Cambiado
                       changeFontSize("more");
                       break;
-                    case "lessSizeAc":
+                    case "decreaseText": // Cambiado
                       changeFontSize("less");
                       break;
-                    case "restartAc":
-                      resetAccessibilitySettings(); // Llamar a la función de reinicio
+                    case "reset": // Cambiado
+                      resetAccessibilitySettings();
                       break;
-                    case "moreSpacingAc":
+                    case "increaseSpacing": // Cambiado
                       changeSpacing("more");
                       break;
-                    case "lessSpacingAc":
+                    case "decreaseSpacing": // Cambiado
                       changeSpacing("less");
                       break;
-                    case "contrastAc":
+                    case "highContrast": // Cambiado
                       setIsHighContrast(!isHighContrast);
                       break;
-                    case "grayAc":
+                    case "grayScale": // Cambiado
                       setIsGrayScale(!isGrayScale);
                       break;
-                    case "cursorAc":
+                    case "increaseCursor": // Cambiado
                       setIsBigCursor(!isBigCursor);
                       break;
-                    case "linksAc":
+                    case "highlightLinks": // Cambiado
                       setHighlightLinks(!highlightLinks);
                       break;
-                    case "dyslexicAc":
+                    case "dyslexicFont": // Cambiado
                       setIsDyslexicFont(!isDyslexicFont);
                       break;
                     default:
@@ -119,6 +132,9 @@ const AccessibilityBar = () => {
                   }
                 }}
               >
+                <strong
+                  class={`accessibilityBar__icon accessibilityBar__icon--${item.img}`}
+                ></strong>
                 {item.text}
               </button>
             ))}
