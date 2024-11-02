@@ -158,13 +158,6 @@ body {
   cursor: url("../public/Assets/images/bigcursor.svg"), auto !important;
 }
 
-/* Resaltar enlaces */
-.src_highlightLink {
-  background-color: var(--color-resaltoFondoAC) !important;
-  color: var(--resalto-linksAC) !important;
-  text-decoration: underline !important;
-}
-
 /* Iconos */
 .accessibilityBar__icon {
   color: var(--color-secundarioAC);
